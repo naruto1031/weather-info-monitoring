@@ -1,12 +1,17 @@
-import { Coordinate } from "@/type/apiSchema";
 import type { NextApiRequest, NextApiResponse } from "next";
+import admin from "firebase-admin";
 import { cert } from "firebase-admin/app";
 import serviceAccount from "../../../weather-info-monitoring-firebase.json";
-import admin from "firebase-admin";
-admin.initializeApp({
-  credential: cert(serviceAccount as admin.ServiceAccount),
-});
+
+// Firebaseがまだ初期化されていない場合にのみ初期化を行う
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: cert(serviceAccount as admin.ServiceAccount),
+  });
+}
+
 import { getFirestore } from "firebase-admin/firestore";
+import { Coordinate } from "@/types/apiSchema";
 const db = getFirestore();
 
 export default async function handler(

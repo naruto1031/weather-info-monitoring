@@ -1,5 +1,5 @@
-import { Coordinate } from "@/type/apiSchema";
-import { Box, Input } from "@chakra-ui/react";
+import { Coordinate } from "@/types/apiSchema";
+import { Box, Button, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { fetchWeatherApi } from "openmeteo";
 
@@ -34,8 +34,10 @@ interface WeatherData {
 
 export default function Home() {
   const [data, setData] = useState<WeatherData>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     const coordinateRes = await fetch("/api/coordinate");
     const coordinate: Coordinate = await coordinateRes.json();
     const params = {
@@ -69,26 +71,25 @@ export default function Home() {
         weatherCode: Array.from(hourly.variables(2)!.valuesArray()!),
       },
     };
-
     setData(weatherData);
+    setIsLoading(false);
   };
 
   const chartData = {
     labels: data?.hourly.time.map(time => time.toLocaleTimeString('ja-JP')),
     datasets: [
       {
-        label: 'Temperature (°C)',
+        label: '気温 (°C)',
         data: data?.hourly.temperature2m,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
       },
       {
-        label: 'Precipitation Probability (%)',
+        label: '降水確率 (%)',
         data: data?.hourly.precipitationProbability,
         borderColor: 'rgb(255, 99, 132)',
         tension: 0.1
       },
-      
     ]
   };
 
@@ -104,7 +105,7 @@ export default function Home() {
 
   return (
     <Box>
-      <button onClick={handleSubmit}>検索</button>
+      <Button onClick={handleSubmit} isLoading={isLoading} colorScheme='blue' variant='solid'>検索</Button>
       {data && (
         <Box style={{ height: '400px' }}>
           <Line data={chartData} options={options} />
