@@ -4,7 +4,7 @@ import { Card, CardHeader, Box, CardBody, Button } from "@chakra-ui/react";
 interface Props {
   currentCoordinate: Coordinate | undefined;
   isLoading: boolean;
-  fetchData: () => void;
+  fetchData: () => Promise<void>;
 }
 export const CoordinateCard = ({
   currentCoordinate,

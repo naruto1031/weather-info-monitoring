@@ -1,12 +1,21 @@
 import { WeatherData } from "@/types/api-schema";
 import { weatherCodes } from "@/utils/weather-code";
 import { Box, Divider, Card } from "@chakra-ui/react";
+import { Dispatch, SetStateAction } from "react";
+
+export interface WeatherInfo {
+  date: string;
+  hour: number;
+  weather: string;
+  temperature: number;
+}
 
 interface Props {
   data: WeatherData;
+  setWeatherInfo: Dispatch<SetStateAction<string>>;
 }
 
-export const WeatherForecast = ({ data }: Props) => {
+export const WeatherForecast = ({ data, setWeatherInfo }: Props) => {
   const displayHourPoints = [0, 9, 12, 21];
   const today = new Date();
   const oneWeekAgo = new Date(
@@ -44,7 +53,8 @@ export const WeatherForecast = ({ data }: Props) => {
     return null;
   });
   const weatherArrayFiltered = weatherArray.filter((element) => element);
-  console.log(JSON.stringify(weatherArrayFiltered))
+  setWeatherInfo(JSON.stringify(weatherArrayFiltered));
+
   return (
     <Card my="20px" p="4" overflow="hidden">
       <Box fontWeight="bold" fontSize="24px" mb="4">
@@ -64,7 +74,9 @@ export const WeatherForecast = ({ data }: Props) => {
               lastDate = dateString;
               return (
                 <Box key={dateString}>
-                  <Box fontWeight="bold" mt="4">{dateString}</Box>
+                  <Box fontWeight="bold" mt="4">
+                    {dateString}
+                  </Box>
                   <Divider my="2" />
                   <Box>
                     {`${date.getHours()}時: ${

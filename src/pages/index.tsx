@@ -19,7 +19,9 @@ import {
   Legend,
 } from "chart.js";
 import { useFetchData } from "@/hooks/useFetchData";
-import { CoordinateCard, Header, WeatherCharts, WeatherForecast } from "@/components";
+import { CoordinateCard, Header, WeatherCaster, WeatherCharts, WeatherForecast, WeatherInfo } from "@/components";
+import { useEffect, useState } from "react";
+import { useFetchOpenAI } from "@/hooks/useFetchOpenAI";
 
 ChartJS.register(
   CategoryScale,
@@ -32,6 +34,15 @@ ChartJS.register(
 
 export default function Home() {
   const { data, currentCoordinate, isLoading, fetchData } = useFetchData();
+  const {answer, isAiLoading, fetchOpenAI } = useFetchOpenAI();
+  const [weatherInfo, setWeatherInfo] = useState<string>("");
+
+  useEffect(() => {
+    if (weatherInfo.length > 0) {
+      fetchOpenAI(weatherInfo);
+    }
+  }, [weatherInfo]);
+
   return (
     <>
       <Header />
@@ -39,8 +50,9 @@ export default function Home() {
         <CoordinateCard isLoading={isLoading} currentCoordinate={currentCoordinate} fetchData={fetchData} />
         {data && (
           <Box>
+            <WeatherCaster isLoading={isAiLoading} answer={answer} />
             <WeatherCharts data={data} />
-            <WeatherForecast data={data} />
+            <WeatherForecast data={data} setWeatherInfo={setWeatherInfo} />
           </Box>
         )}
       </Container>
