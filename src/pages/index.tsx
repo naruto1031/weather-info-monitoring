@@ -37,17 +37,17 @@ export default function Home() {
   const {answer, isAiLoading, fetchOpenAI } = useFetchOpenAI();
   const [weatherInfo, setWeatherInfo] = useState<string>("");
 
-  useEffect(() => {
-    if (weatherInfo.length > 0) {
-      fetchOpenAI(weatherInfo);
-    }
-  }, [weatherInfo]);
+  // useEffect(() => {
+  //   if (weatherInfo.length > 0) {
+  //     fetchOpenAI(weatherInfo);
+  //   }
+  // }, [weatherInfo]);
 
   return (
     <>
       <Header />
       <Container maxWidth="1024px" mt="20px" backgroundColor="">
-        <CoordinateCard isLoading={isLoading} currentCoordinate={currentCoordinate} fetchData={fetchData} />
+        {/* <CoordinateCard isLoading={isLoading} currentCoordinate={currentCoordinate} fetchData={fetchData} /> */}
         {data && (
           <Box>
             <WeatherCaster isLoading={isAiLoading} answer={answer} />
