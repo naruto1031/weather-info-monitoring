@@ -3,7 +3,6 @@ import admin from "firebase-admin";
 import { cert } from "firebase-admin/app";
 import serviceAccount from "../../../weather-info-monitoring-firebase.json";
 
-// Firebaseがまだ初期化されていない場合にのみ初期化を行う
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: cert(serviceAccount as admin.ServiceAccount),
@@ -11,7 +10,7 @@ if (!admin.apps.length) {
 }
 
 import { getFirestore } from "firebase-admin/firestore";
-import { Coordinate } from "@/types/apiSchema";
+import { Coordinate } from "@/types/api-schema";
 const db = getFirestore();
 
 export default async function handler(
