@@ -47,10 +47,10 @@ export default function Home() {
     <>
       <Header />
       <Container maxWidth="1024px" mt="20px" backgroundColor="">
-        {/* <CoordinateCard isLoading={isLoading} currentCoordinate={currentCoordinate} fetchData={fetchData} /> */}
+        <CoordinateCard isLoading={isLoading} currentCoordinate={currentCoordinate} fetchData={fetchData} />
         {data && (
           <Box>
-            <WeatherCaster isLoading={isAiLoading} answer={answer} />
+            {/* <WeatherCaster isLoading={isAiLoading} answer={answer} /> */}
             <WeatherCharts data={data} />
             <WeatherForecast data={data} setWeatherInfo={setWeatherInfo} />
           </Box>
