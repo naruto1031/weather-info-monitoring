@@ -21,8 +21,8 @@ export const CoordinateCard = ({
       <CardBody>
         {currentCoordinate ? (
           <Box fontSize="24px">
-            ({currentCoordinate?.location._latitude},
-            {currentCoordinate?.location._longitude})
+            ({Math.round(currentCoordinate?.location._latitude * 10000) / 10000}
+            ,{Math.round(currentCoordinate?.location._longitude * 10000) / 10000})
           </Box>
         ) : (
           <Box fontSize="24px">未取得</Box>
